@@ -71,11 +71,11 @@ https://github.com/certd/certd/releases
 ### 3. 运行
 ```bash
 # 如果docker compose是插件化安装
-export CERTD_VERSION=1.2.0
+export CERTD_VERSION=1.20.9
 docker compose up -d
 
 #如果docker compose是独立安装
-export CERTD_VERSION=1.2.0
+export CERTD_VERSION=1.20.9
 docker-compose up -d
 
 ```
@@ -84,6 +84,12 @@ docker-compose up -d
 http://your_server_ip:7001 
 默认账号密码：admin/123456 
 记得修改密码
+
+
+### 5. 升级
+
+* 修改版本号，重新运行 `docker compose up -d` 即可
+* 数据存在`/data/certd`目录下，不用担心数据丢失
 
 
 ## 五、一些说明
@@ -106,7 +112,25 @@ http://your_server_ip:7001
   ![](https://ai.handsfree.work/images/exchange_wxqroup.png)
 
 
-## 七、我的其他项目
+加作者好友
+<p align="center">
+<img height="230" src="./doc/images/me.png">
+</p>
+
+## 捐赠
+媳妇儿说：“一天到晚搞开源，也不管管老婆孩子！😡😡😡”        
+拜托各位捐赠支持一下，让媳妇儿开心开心，我也能有更多时间进行开源项目，感谢🙏🙏🙏
+<p align="center">
+<img height="380" src="./doc/images/donate.png">
+</p>
+
+
+## 七、贡献代码
+
+[贡献插件教程](./packages/plugins/plugin-center/README.md)
+
+
+## 八、我的其他项目
 * [袖手GPT](https://ai.handsfree.work/) ChatGPT，国内可用，无需FQ，每日免费额度
 * [fast-crud](https://gitee.com/fast-crud/fast-crud/) 基于vue3的crud快速开发框架
 * [dev-sidecar](https://github.com/docmirror/dev-sidecar/) 直连访问github工具，无需FQ，解决github无法访问的问题
