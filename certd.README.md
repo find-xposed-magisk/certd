@@ -1,0 +1,190 @@
+# Certd
+
+Certd 是一个免费全自动申请和自动部署更新SSL证书的管理系统。       
+后缀d取自linux守护进程的命名风格，意为证书守护进程。    
+
+关键字：证书自动申请、证书自动更新、证书自动续期、证书自动续签、证书管理工具
+
+> 关于证书续期：
+>* 实际上没有办法不改变证书文件本身情况下直接续期或者续签。
+>* 我们所说的续期，其实就是按照全套流程重新申请一份新证书，然后重新部署上去。
+>* 免费证书过期时间90天，以后可能还会缩短，所以自动化部署必不可少
+
+
+> 流水线数量现已调整为无限制，欢迎大家使用
+
+## 一、特性
+本项目不仅支持证书申请过程自动化，还可以自动化部署更新证书，让你的证书永不过期。     
+
+* 全自动申请证书（支持所有注册商注册的域名，支持DNS-01、HTTP-01、CNAME代理等多种域名验证方式）
+* 全自动部署更新证书（目前支持部署到主机、阿里云、腾讯云等70+部署插件）
+* 支持通配符域名/泛域名，支持多个域名打到一个证书上，支持pem、pfx、der、jks等多种证书格式
+* 邮件通知、webhook通知、企微、钉钉、飞书、anpush等多种通知方式
+* 私有化部署，数据保存本地，安装升级非常简单快捷
+* 镜像由Github Actions构建，过程公开透明
+* 授权加密，站点隐藏，2FA，密码防爆破等多重安全保障
+* 支持SQLite，PostgreSQL、MySQL多种数据库
+* 开放接口支持
+* 站点证书监控
+* 多用户管理
+
+
+  ![](./docs/images/intro/intro.svg)
+
+
+
+
+ 
+## 二、在线体验
+
+官方Demo地址，自助注册后体验    
+
+https://certd.handfree.work/
+
+> 注意数据将不定期清理，不定期停止定时任务，生产使用请自行部署    
+> 包含敏感信息，务必自己本地部署进行生产使用
+
+![首页](./docs/images/start/home.png)
+
+## 三、使用教程
+
+仅需3步，让你的证书永不过期
+
+### 1. 创建证书流水线
+![演示](packages/ui/certd-client/public/static/doc/images/1-add.png)
+
+> 添加成功后，就可以直接运行流水线申请证书了
+
+### 2. 添加部署任务
+当然我们一般需要把证书部署到应用上，certd支持海量的部署插件，您可以根据自身实际情况进行选择，比如部署到Nginx、阿里云、腾讯云、K8S、CDN、宝塔、1Panel等等
+
+此处演示部署证书到主机的nginx上    
+![演示](packages/ui/certd-client/public/static/doc/images/5-1-add-host.png)
+
+如果目前的部署插件都无法满足，您也可以手动下载，然后自行部署   
+![演示](packages/ui/certd-client/public/static/doc/images/13-3-download.png)
+
+### 3. 定时运行
+![演示](packages/ui/certd-client/public/static/doc/images/12-1-log-success.png)
+
+
+↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓      
+-------> [点我查看详细使用步骤演示](./step.md)   <--------      
+↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑     
+
+更多教程请访问官方文档 [certd.docmirror.cn](https://certd.docmirror.cn/guide/)
+
+
+
+## 四、私有化部署
+
+由于证书、授权信息等属于高度敏感数据，请务必私有化部署，保障数据安全    
+
+您可以根据实际情况从如下方式中选择一种方式进行私有化部署：
+
+1. [宝塔面板方式部署 推荐](https://certd.docmirror.cn/guide/install/docker/)
+2. [1Panel面板方式部署 推荐](https://certd.docmirror.cn/guide/install/1panel/)
+3. [Docker方式部署 推荐](https://certd.docmirror.cn/guide/install/docker/)
+4. [源码方式部署 不建议](https://certd.docmirror.cn/guide/install/source/)
+
+#### Docker镜像说明：
+* 国内镜像地址:
+  * `registry.cn-shenzhen.aliyuncs.com/handsfree/certd:latest`
+  * `registry.cn-shenzhen.aliyuncs.com/handsfree/certd:armv7`、`[version]-armv7`
+* DockerHub地址：
+  * `https://hub.docker.com/r/greper/certd`
+  * `greper/certd:latest`
+  * `greper/certd:armv7`、`greper/certd:[version]-armv7`
+* GitHub Packages地址:
+  * `ghcr.io/certd/certd:latest`
+  * `ghcr.io/certd/certd:armv7`、`ghcr.io/certd/certd:[version]-armv7`
+
+* 镜像构建通过`Actions`自动执行，过程公开透明，请放心使用
+  * [点我查看镜像构建日志](https://github.com/certd/certd/actions/workflows/build-image.yml) 
+
+![](./docs/images/action/action-build.jpg)
+
+> 注意：
+> * 本应用存储的证书、授权信息等属于高度敏感数据，请做好安全防护
+> * 请务必使用HTTPS协议访问本应用，避免被中间人攻击
+> * 请务必使用web应用防火墙防护本应用，防止XSS、SQL注入等攻击
+> * 请务必做好服务器本身的安全防护，防止数据库泄露
+> * 请务必做好数据备份，避免数据丢失
+> * [更多安全生产建议点我](https://certd.docmirror.cn/guide/feature/safe/)
+
+
+## 五、更多帮助
+请访问官方文档：[https://certd.docmirror.cn/](https://certd.docmirror.cn/guide/)
+
+* 升级方法：[升级方法](https://certd.docmirror.cn/guide/install/upgrade/)
+* 常见问题：[忘记密码](https://certd.docmirror.cn/guide/use/forgotpasswd/)
+* 多数据库：[多数据库配置](https://certd.docmirror.cn/guide/install/database/)
+* 站点安全：[站点安全特性](https://certd.docmirror.cn/guide/feature/safe/)
+* 更新日志：[CHANGELOG](./CHANGELOG.md)
+
+
+## 六、联系作者
+如有疑问，欢迎加入群聊（请备注certd）
+
+| 加群 | 微信群 | QQ群 |
+|---------|-------|-------|
+| 二维码 | <img height="230" src="./docs/guide/contact/images/wx.png"> | <img height="230" src="./docs/guide/contact/images/qq.png"> |
+
+也可以加作者好友
+
+| 加作者好友 | 微信 QQ                                                       |
+|---------|-------------------------------------------------------------|
+| 二维码 | <img height="230" src="./docs/guide/contact/images/me.png"> |
+
+
+## 七、捐赠
+************************
+支持开源，为爱发电，我已入驻爱发电   
+https://afdian.com/a/greper
+
+发电权益：
+1. 可加入发电专属群，可以获得作者一对一技术支持
+2. 您的需求我们将优先实现，并且将作为专业版功能提供
+3. 一年期专业版激活码
+
+专业版特权对比
+
+| 功能      | 免费版                                   | 专业版                            |
+|---------|---------------------------------------|--------------------------------|
+| 免费证书申请  | 免费无限制                                 | 免费无限制                          |
+| 域名数量 | 无限制                                   | 无限制                            |
+| 证书流水线条数 | 无限制                                   | 无限制                            |
+| 站点证书监控  | 限制1条                                  | 无限制                            |
+| 自动部署插件  | 阿里云CDN、腾讯云、七牛CDN、主机部署、宝塔、1Panel等大部分插件 | 群晖                             |
+| 通知      | 邮件通知、自定义webhook                       | 邮件免配置、企微、钉钉、飞书、anpush、server酱等 |
+
+
+************************
+
+## 八、贡献代码
+
+1. 本地开发请参考 [贡献插件向导](https://certd.docmirror.cn/guide/development/)
+2. 作为贡献者，代表您同意您贡献的代码如下许可：
+   1. 可以调整开源协议以使其更严格或更宽松。
+   2. 可以用于商业用途。
+
+感谢以下贡献者做出的贡献。
+
+<a href="https://github.com/certd/certd/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=certd/certd" />
+</a>
+
+## 九、 开源许可
+* 本项目遵循 GNU Affero General Public License（AGPL）开源协议。   
+* 允许个人和公司内部自由使用、复制、修改和分发本项目，未获得商业授权情况下禁止任何形式的商业用途 
+* 未获得商业授权情况下，禁止任何对logo、版权信息及授权许可相关代码的修改。
+* 如需商业授权，请联系作者。
+
+
+## 十、我的其他项目（求Star）
+
+| 项目名称                                                    | stars                                                                                                 | 项目描述                              | 
+|---------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-----------------------------------|
+| [袖手AI](https://ai.handsfree.work/)                    |                                                                                                       | 袖手GPT，国内可用，无需FQ，每日免费额度            | 
+| [fast-crud](https://gitee.com/fast-crud/fast-crud/)     | <img alt="GitHub stars" src="https://img.shields.io/github/stars/fast-crud/fast-crud?logo=github"/>   | 基于vue3的crud快速开发框架                 |  
+| [dev-sidecar](https://github.com/docmirror/dev-sidecar/) | <img alt="GitHub stars" src="https://img.shields.io/github/stars/docmirror/dev-sidecar?logo=github"/> | 直连访问github工具，无需FQ，解决github无法访问的问题 |                       
